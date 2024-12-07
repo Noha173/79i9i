@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السحب</title>
+</head>
+<body>
+    <h1>صفحة السحب</h1>
+    <div>رصيدك الحالي: <span id="balance">0</span> دولار</div>
+    <form>
+        <label>المبلغ المطلوب سحبه: <input type="number" id="withdrawAmount" required></label><br>
+        <button type="button" onclick="withdraw()">سحب</button>
+    </form>
+    <div id="withdrawStatus"></div>
+    <a href="index.html">العودة إلى عجلة الحظ</a>
+    <script>
+        document.getElementById('balance').innerText = localStorage.getItem('balance') || 0;
+
+        function withdraw() {
+            const balance = parseFloat(localStorage.getItem('balance')) || 0;
+            const withdrawAmount = parseFloat(document.getElementById('withdrawAmount').value);
+
+            if (withdrawAmount > balance) {
+                document.getElementById('withdrawStatus').innerText = "رصيدك غير كافٍ.";
+            } else {
+                localStorage.setItem('balance', (balance - withdrawAmount).toFixed(2));
+                document.getElementById('balance').innerText = localStorage.getItem('balance');
+                document.getElementById('withdrawStatus').innerText = "تمت عملية السحب بنجاح.";
+            }
+        }
+    </script>
+</body>
+</html>
